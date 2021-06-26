@@ -688,6 +688,9 @@ pub enum IsNull {
 ///
 /// `ToSql` is implemented for `Vec<T>` and `&[T]` where `T` implements `ToSql`,
 /// and corresponds to one-dimensional Postgres arrays with an index offset of 1.
+/// To make conversion work correctly for `WHERE ... IN` clauses, for example
+/// `WHERE col IN ($1)`, you may instead have to use the construct
+/// `WHERE col = ANY ($1)` which expects an array.
 pub trait ToSql: fmt::Debug {
     /// Converts the value of `self` into the binary format of the specified
     /// Postgres `Type`, appending it to `out`.
